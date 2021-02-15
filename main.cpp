@@ -35,6 +35,8 @@ public:
     T at(int i) {
         if (i <= _capacity) {
             return buffer[i];
+        } else {
+            std::cout << "Out of range" << std::endl;
         }
     }
 
@@ -50,35 +52,37 @@ public:
         return buffer[index];
     };
 
+    T *begin() {
+        return &(buffer[0]);
+    }
+
+    T *end() {
+        return &(buffer[0] + sizeof(T));
+    }
 
 };
 
 int main() {
 
     std::vector<int> vector;
-    auto a = vector.begin();
-    vector2<int> vector2(4);
-    for (int i = 0; i < 20; ++i) {
+    ::vector2<int> vector2(4);
+    for (int i = 2; i < 20; ++i) {
         vector2.push_back(i);
     }
+    auto itBegin = vector2.begin();
+    auto itEnd = vector2.end();
+    std::cout << "It:" << vector2.begin() << std::endl;
 
     ::vector2<char> charVector;
-    charVector.push_back('a');
-    charVector.push_back('a');
-    charVector.push_back('a');
-    charVector.push_back('a');
-    charVector.push_back('a');
-    charVector.push_back('a');
-    charVector.push_back('a');
-    charVector.push_back('a');
+    for (int i = 0; i < 8; ++i) {
+        charVector.push_back('a');
+    }
 
 
     for (int i = 0; i < vector2.size(); ++i) {
         std::cout << vector2[i] << std::endl;
     }
-//    for (int i = 0; i < charVector.size(); ++i) {
-//        std::cout << charVector[i];
-//    }
+
     std::cout << std::endl;
     std::cout << "Capacity:" << vector2.capacity();
     return 0;
