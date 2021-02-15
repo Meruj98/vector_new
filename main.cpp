@@ -123,5 +123,11 @@ int main() {
         const auto i = *it;
         std::cout << "With iterators:" << i << std::endl;
     }
+
+    auto charEnd = charVector.end();
+    for (auto it = charVector.begin(); it != charEnd; ++it) {
+        const auto i = *it;
+        std::cout << "With iterators char:" << i << std::endl;
+    }
     return 0;
 }
