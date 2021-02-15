@@ -7,7 +7,7 @@ class vector2 {
 
 private:
     int _size = 0;
-    int _capacity = sizeof(T);
+    int _capacity = 4;
     T *buffer = new T[_capacity];
 public:
     vector2() {
@@ -33,7 +33,7 @@ public:
     }
 
     T at(int i) {
-        if (i <= _capacity) {
+        if (i < _capacity) {
             return buffer[i];
         } else {
             std::cout << "Out of range" << std::endl;
@@ -52,14 +52,48 @@ public:
         return buffer[index];
     };
 
-    T *begin() {
-        return &(buffer[0]);
+    class iterator {
+    public:
+        using iterator_category = std::forward_iterator_tag;
+        using difference_type = std::ptrdiff_t;
+        using value_type = T;
+        using pointer = T *;  // or also value_type*
+        using reference = T &;  // or also value_type&
+        iterator(pointer ptr) : m_ptr(ptr) {}
+
+        reference operator*() const { return *m_ptr; }
+
+        pointer operator->() { return m_ptr; }
+
+        // Prefix increment
+        iterator &operator++() {
+            m_ptr++;
+            return *this;
+        }
+
+        // Postfix increment
+        iterator operator++(int) {
+            iterator tmp = *this;
+            ++(*this);
+            return tmp;
+        }
+
+
+        friend bool operator==(const iterator &a, const iterator &b) { return a.m_ptr == b.m_ptr; };
+
+        friend bool operator!=(const iterator &a, const iterator &b) { return a.m_ptr != b.m_ptr; };
+
+    private:
+        pointer m_ptr;
+    };
+
+    iterator begin() {
+        return iterator(&buffer[0]);
     }
 
-    T *end() {
-        return &(buffer[0] + sizeof(T));
+    iterator end() {
+        return iterator(&buffer[_size + 1]);
     }
-
 };
 
 int main() {
@@ -69,9 +103,6 @@ int main() {
     for (int i = 2; i < 20; ++i) {
         vector2.push_back(i);
     }
-    auto itBegin = vector2.begin();
-    auto itEnd = vector2.end();
-    std::cout << "It:" << vector2.begin() << std::endl;
 
     ::vector2<char> charVector;
     for (int i = 0; i < 8; ++i) {
@@ -85,5 +116,12 @@ int main() {
 
     std::cout << std::endl;
     std::cout << "Capacity:" << vector2.capacity();
+
+
+    auto end = vector2.end();
+    for (auto it = vector2.begin(); it != end; ++it) {
+        const auto i = *it;
+        std::cout << "With iterators:" << i << std::endl;
+    }
     return 0;
 }
