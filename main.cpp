@@ -94,7 +94,7 @@ public:
     }
 
     iterator end() {
-        return iterator(&buffer[_size + 1]);
+        return iterator(&buffer[_size]);
     }
 };
 
