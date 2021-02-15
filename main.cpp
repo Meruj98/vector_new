@@ -83,6 +83,8 @@ public:
 
         friend bool operator!=(const iterator &a, const iterator &b) { return a.m_ptr != b.m_ptr; };
 
+        friend bool operator<(const iterator &a, const iterator &b) { return a.m_ptr < b.m_ptr; }
+
     private:
         pointer m_ptr;
     };
@@ -128,6 +130,11 @@ int main() {
     for (auto it = charVector.begin(); it != charEnd; ++it) {
         const auto i = *it;
         std::cout << "With iterators char:" << i << std::endl;
+    }
+
+    for (auto it = charVector.begin(); it < charVector.end(); ++it) {
+        const auto value = *it;
+        std::cout << "With overloaded operator:" << value << std::endl;
     }
     return 0;
 }
